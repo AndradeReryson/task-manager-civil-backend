@@ -97,6 +97,49 @@ Utilizar a interface Swagger UI para obter a estrutura exata de todos os DTOs (P
 
 Usar bibliotecas como Ktor Client ou Kotlinx Serialization para lidar com as requisições HTTP e o parseamento de JSON.
 
+---
+
+## 🤝 Guia de Conexão Frontend (KMP/WASM)
+
+Esta seção resume os pontos críticos para o time de frontend configurar o **Ktor Client** e mapear os DTOs corretamente.
+
+### 1. Configuração do Cliente HTTP (Ktor)
+
+* **URL Base:** O backend está ativo em `http://localhost:8080/api` (ambiente de desenvolvimento). No arquivo `ApiClient.kt` do frontend, a `BASE_URL` deve ser configurada para incluir o `/api/` e o domínio correto.
+* **CORS:** O backend está configurado para aceitar requisições de desenvolvimento (`http://localhost:8080`) e produção (`https://seu-dominio.github.io`), permitindo todos os métodos HTTP (GET, POST, etc.).
+
+### 2. Fluxo de Autenticação (JWT)
+
+O sistema utiliza tokens JWT e Refresh Tokens.
+
+* **Login:** O Access Token é obtido via `POST /api/auth/login`.
+* **Duração:** O Access Token expira em **1 hora** (3600 segundos).
+* **Renovação:** Se o token vencer, use o `refreshToken` no endpoint `POST /api/auth/refresh` para obter um novo Access Token sem relogar.
+* **Mecanismo Ktor:** O Ktor Client deve ser configurado com o *plugin* **Auth Bearer**. O *frontend* é responsável por armazenar o token; o `ApiClient` o anexa automaticamente ao header `Authorization`.
+
+### 3. Mapeamento de Contratos (DTOs)
+
+Os modelos de dados (DTOs) no frontend (Kotlin) **devem** corresponder exatamente às estruturas JSON definidas em `JSON_EXAMPLES.md`.
+
+* **Datas e Horas:** Campos de data e hora (Ex: `createdAt`, `dueDate`) estão no formato ISO 8601 (`2024-01-20T10:30:00Z`) e devem ser mapeados utilizando o **`kotlinx.datetime`**.
+* **Enums:** Todos os campos de status e tipo (Ex: `status`, `department`, `type`) são *strings* em **UPPERCASE** (Ex: `EM_ANDAMENTO`, `DESPESA`).
+* **Tratamento de Erros:** O formato de erro padrão é consistente, retornando um objeto JSON com campos como `timestamp`, `status`, `message` e a lista detalhada de `errors` (para validação).
+
+### 4. Endpoints de Referência e Permissões
+
+A segurança é gerenciada pelo backend via Roles.
+
+| Recurso | Tipo | Endpoint de Referência | Role Mínima | Filtro Exemplo (Specifications) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Auth** | `POST` | `/api/auth/login` | Público | N/A |
+| **Colaborador** | `GET` | `/api/employees` | FUNCIONARIO | `?department=ENGENHARIA&isActive=false` |
+| **Projeto** | `POST` | `/api/projects` | GESTOR_OBRAS | N/A (Criação) |
+| **Tarefa** | `GET` | `/api/tasks` | FUNCIONARIO | `?projectId={id}&status=PENDENTE` |
+| **Financeiro** | `GET` | `/api/financial` | GESTOR_OBRAS | `?type=RECEITA&category=VENDA` |
+| **Soft Delete** | `GET` | `/api/{recurso}` | Variável | `?isActive=false` (Para ver a Lixeira) |
+
+-----  
+
 ## 👥 Contribuidores
 Projeto Interdisciplinar - 6º Semestre
 
@@ -108,3 +151,4 @@ Integrantes:
 - 4º: Lucas Trindade
 - 5º: Gustavo dos Anjos
 - 6º: Reryson Santos de Andrade
+- 7º: Ulisses Antonelli
