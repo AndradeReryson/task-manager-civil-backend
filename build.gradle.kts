@@ -45,13 +45,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
-    // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test"){
-      exclude(module = "kotlin-test-junit")
-    }
-    testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
-
     // OpenAPI/Swagger UI Documentation
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0") // Use a versão mais recente
 }
