@@ -7,6 +7,7 @@ plugins {
 	id("org.springframework.boot") version "3.5.8"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "1.9.25"
+  id("com.adarshr.test-logger") version "4.0.0"
 }
 
 group = "com.taskmanager"
@@ -47,6 +48,16 @@ dependencies {
 
     // OpenAPI/Swagger UI Documentation
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0") // Use a versão mais recente
+
+    // Testes
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1") 
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("com.h2database:h2")
+    
+
 }
 
 kotlin {
@@ -90,4 +101,17 @@ if (localPropsFile.exists()) {
             systemProperties[key.toString()] = value.toString()
         }
     }
+}
+
+// Configuração do Test Logger
+testlogger {
+    theme = com.adarshr.gradle.testlogger.theme.ThemeType.STANDARD
+    showSummary = false
+    showPassed = true
+    showSkipped = true
+    showFailed = true
+    showStandardStreams = false
+    showPassedStandardStreams = false
+    showSkippedStandardStreams = false
+    showFailedStandardStreams = true
 }
