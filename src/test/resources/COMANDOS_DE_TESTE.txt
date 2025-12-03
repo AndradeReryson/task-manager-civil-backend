@@ -1,0 +1,7 @@
+RODANDO OS CASOS DE TESTE:
+
+./gradlew test --tests "com.taskmanager.integration.CreateTaskScenarioTest" 
+
+RODANDO OS TESTES UNITARIOS NOS SERVICES:
+
+./gradlew test --tests "com.taskmanager.application.service.AllServicesTestSuite"

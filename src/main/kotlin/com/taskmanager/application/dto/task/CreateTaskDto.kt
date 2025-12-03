@@ -8,9 +8,10 @@ import java.time.LocalDateTime
 
 data class CreateTaskDto(
     @field:NotBlank(message = "Título da tarefa é obrigatório")
-    @field:Size(max = 255)
+    @field:Size(min = 3, max = 200)
     val title: String,
 
+    @field:Size(min = 10)
     val description: String?,
 
     @field:NotBlank(message = "ID do Projeto é obrigatório")

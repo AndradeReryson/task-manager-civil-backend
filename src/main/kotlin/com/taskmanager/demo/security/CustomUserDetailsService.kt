@@ -21,8 +21,8 @@ class CustomUserDetailsService(
             ?: throw UsernameNotFoundException("Usuário não encontrado com username: $username")
         
         // 🚨 PASSO DE DEBUG: IMPRIMA O HASH LIDO DO BANCO
-        println("### HASH LIDO DO BANCO: ${user.passwordHash}")
-        println("### TAMANHO DO HASH LIDO: ${user.passwordHash.length}")
+        // println("### HASH LIDO DO BANCO: ${user.passwordHash}")
+        // println("### TAMANHO DO HASH LIDO: ${user.passwordHash.length}")
         // FIM DO DEBUG
 
         // Retornamos a entidade User, que implementa UserDetails

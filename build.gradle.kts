@@ -50,6 +50,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0") // Use a versão mais recente
 
     // Testes
+    testImplementation("org.junit.platform:junit-platform-suite:1.10.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1") 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 
@@ -74,6 +75,9 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+
+  // linha para silenciar o aviso do Java Agent do Mockito
+  jvmArgs("-XX:+EnableDynamicAgentLoading")
 }
 
 tasks.withType<KotlinCompile> {
@@ -110,8 +114,8 @@ testlogger {
     showPassed = true
     showSkipped = true
     showFailed = true
-    showStandardStreams = false
-    showPassedStandardStreams = false
-    showSkippedStandardStreams = false
+    showStandardStreams = true
+    showPassedStandardStreams = true
+    showSkippedStandardStreams = true
     showFailedStandardStreams = true
 }

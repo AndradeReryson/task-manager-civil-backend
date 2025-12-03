@@ -79,7 +79,7 @@ class TaskController(
      * Acesso: ADMIN, GESTOR_OBRAS, LIDER_EQUIPE, FUNCIONARIO (Todos podem reportar tarefas).
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'GESTOR_OBRAS', 'LIDER_EQUIPE', 'FUNCIONARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GESTOR_OBRAS', 'LIDER_EQUIPE')")
     fun create(
         @Valid @RequestBody dto: CreateTaskDto,
         @AuthenticationPrincipal principal: UserDetails
